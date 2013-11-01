@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" type="text/css" href="/static/privatemessages.css">
+	
+	<script type="text/javascript" src="http://yandex.st/jquery/1.8.3/jquery.min.js"></script>
+	<script type="text/javascript" src="/static/jstz.min.js"></script>
+	<script type="text/javascript" src="/static/privatemessages.js"></script>
+	{% block head %}{% endblock %}
+	
+	<title>{% block title %}Личные сообщения{% endblock title %}</title>
+</head>
+
+<body>
+	<div class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Чат</a>
+            </div>
+            
+            <ul class="nav navbar-nav pull-right">
+                
+                {% if user.is_authenticated %}
+                	<li>
+                        <a href="{% url 'messages' %}">Комната сообщений</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.username }}<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="#">Личная страница</a></li>
+                          <li><a href="{% url 'logout' %}">Выход</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li>
+                        <form method="post" class="form-inline pull-right" action="{% url "login" %}" style="margin-top:5px;"> {% csrf_token %}
+                            <table style="margin-right:5px;">
+                                
+                                <tr style="text-align:right">
+                                    <td>
+                                        <div class="form-group {% if form.username.errors %}has-error{% endif %}" style="padding:0 5px;">
+                                            <input id="id_username" type="text" name="username" title="Username or email" class="form-control input-small"
+                                                            placeholder="Ваш логин" style="padding:0 5px; font-size:12px;height:25px;width:140px;"/>
+                                            <input id="id_next" name="next" value="{{ next }}" type="hidden" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group {% if form.password.errors %}has-error{% endif %}">
+                                            <input id="id_password" name="password" type="password" class="form-control input-small" 
+                                                placeholder="Пароль" style="padding:0 5px;font-size:12px;height:25px;width:140px;">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="submit" id="reg"  class="btn btn-default btn-xs" value="Вход" style="margin:0 5px" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="row" style="margin:0 40px">
+
+			{% block content %}{% endblock content %}
+
+		</div>
+
+</body>
+</html>
