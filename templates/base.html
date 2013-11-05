@@ -2,11 +2,12 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="stylesheet" type="text/css" href="/static/privatemessages.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.min.css">
 	
-	<script type="text/javascript" src="http://yandex.st/jquery/1.8.3/jquery.min.js"></script>
-	<script type="text/javascript" src="/static/jstz.min.js"></script>
-	<script type="text/javascript" src="/static/privatemessages.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}js/jquery-2.0.1.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+	<!-- <script type="text/javascript" src="/static/jstz.min.js"></script> -->
+	<script type="text/javascript" src="{{ STATIC_URL }}js/messages.js"></script>
 	{% block head %}{% endblock %}
 	
 	<title>{% block title %}Личные сообщения{% endblock title %}</title>
@@ -17,13 +18,17 @@
             <div class="navbar-header">
                 <a class="navbar-brand" href="/">Чат</a>
             </div>
-            
+            {% if user.is_authenticated %}
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="{% url 'messages' %}">Комната сообщений</a>
+                    </li>
+                </ul>
+            {% endif %}
             <ul class="nav navbar-nav pull-right">
                 
                 {% if user.is_authenticated %}
-                	<li>
-                        <a href="{% url 'messages' %}">Комната сообщений</a>
-                    </li>
+                	
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.username }}<b class="caret"></b></a>
                         <ul class="dropdown-menu">
